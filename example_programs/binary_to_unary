@@ -1,0 +1,31 @@
+q0 $ $ l q1
+q0 _ $ l q1
+q0 0 0 r q0
+q0 1 1 r q0
+q0 * * * halt-reject
+
+q1 _ _ * q6
+q1 1 0 l q2
+q1 0 1 l q1
+
+q2 _ _ r q3
+q2 0 0 l q2
+q2 1 1 l q2
+
+q3 $ $ r q4
+q3 0 _ r q3
+q3 1 1 r q4
+
+q4 _ 1 l q5
+q4 0 0 r q4
+q4 1 1 r q4
+q4 $ $ r q4
+
+q5 _ _ r q0
+q5 * * l q5
+
+q6 $ $ r halt-accept
+q6 * * r q6
+
+halt-accept * * * halt-accept
+halt-reject * * * halt-reject
