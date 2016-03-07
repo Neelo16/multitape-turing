@@ -29,4 +29,9 @@ class State:
                 tape.left()
             elif movement == "r":
                 tape.right()
-        self.machine.state = self.machine.states[transition.new_state]
+        if transition.new_state.startswith('halt'):
+            self.machine.state = State(transition.new_state,
+                                       self.machine,
+                                       None)
+        else:
+            self.machine.state = self.machine.states[transition.new_state]

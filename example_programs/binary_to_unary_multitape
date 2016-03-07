@@ -6,6 +6,3 @@ q0 ** ** ** halt-reject
 q1 _* _* ** halt-accept
 q1 1_ 01 rr q0
 q1 0* 1* l* q1
-
-halt-accept * * * halt-accept
-halt-reject * * * halt-reject

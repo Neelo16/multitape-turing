@@ -26,6 +26,3 @@ q5 * * l q5
 
 q6 $ $ r halt-accept
 q6 * * r q6
-
-halt-accept * * * halt-accept
-halt-reject * * * halt-reject

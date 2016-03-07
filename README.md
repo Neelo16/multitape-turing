@@ -8,10 +8,4 @@ Comments in simulator programs are not implemented yet.
 
 Current output method is temporary and will get messed up if you make it write lines longer than the terminal's width.
 
-Simulation starts on state q0 and stops when a state starting with "halt" is reached. For now, you must declare that state even if it does nothing, for example:
-
-```
-halt-accept * * * halt-accept
-halt-reject * * * halt-reject
-```
-
+Simulation starts on state q0 and stops when a state starting with "halt" is reached.

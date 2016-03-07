@@ -26,8 +26,8 @@ def process_input(path):
                 current_state[character] = {}
                 current_state = current_state[character]
             current_state[to_read[-1]] = transition(to_write,
-                                                  match["move"],
-                                                  match["new_state"])
+                                                    match["move"],
+                                                    match["new_state"])
     turing_machine = machine.Machine("q0", states, 2)
     return turing_machine
 
