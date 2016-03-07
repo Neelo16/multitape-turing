@@ -13,7 +13,7 @@ from state import State
 class Machine:
     def __init__(self, initial_state, states, num_tapes=1):
         self.tapes = [Tape() for i in range(num_tapes)]
-        self.tapes[0] = Tape(list('11001010001010110101101011011111011101000101011110101111101011'))
+        self.tapes[0] = Tape(list('101101'))
         self.states = dict()
         for state, transitions in states.items():
             new_state = State(state, self, transitions)
