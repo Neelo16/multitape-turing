@@ -1,0 +1,26 @@
+3
+; This program uses three tapes to
+; recognize the language formed by abc, with
+; an equal number of a's, b's and c's, in that order
+; (e.g. aabbcc, aaabbbccc, and so on)
+
+; First, we copy all a's from the input tape
+; to the second tape
+q0 a__ aa_ rr* q0
+q0 b__ *** *l* q1
+q0 *** *** *** halt-reject
+
+; Now, we copy all b's from the input tape
+; to the third tape
+q1 b*_ b*b r*r q1
+q1 c*_ *** **l q2
+q1 *** *** *** halt-reject
+
+; Finally, we move right on the first tape
+; and left on the remaining tapes, and
+; accept the language if they all reach
+; the end of the word at the same time,
+; rejecting it otherwise
+q2 cab *** rll q2
+q2 ___ *** *** halt-accept
+q2 *** *** *** halt-reject
