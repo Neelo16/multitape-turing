@@ -7,6 +7,10 @@ from collections import defaultdict, namedtuple
 import machine
 from tape import Tape
 
+try:
+    input = raw_input
+except NameError:
+    pass
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Multitape Turing '

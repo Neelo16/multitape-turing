@@ -2,6 +2,7 @@ from __future__ import print_function
 
 try:
     range = xrange  # Python 2
+    input = raw_input
 except NameError:
     pass
 
@@ -24,7 +25,7 @@ class Machine:
         reset_cursor = "\033[F" * (len(self.tapes)*2 + 1 + (1 if step else 0))
         while not self.state.name.startswith('halt'):
             if step:
-                input("Press RETURN to step")
+                _ = input('Press RETURN to step')
             else:
                 time.sleep(0.05)
             self.state.step()
