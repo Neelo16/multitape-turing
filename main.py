@@ -24,12 +24,9 @@ def process_input(path):
             to_read = match["read"].replace('_', ' ')
             to_write = match["write"].replace('_', ' ')
             current_state = states[state]
-            for character in to_read[:-1]:
-                current_state[character] = {}
-                current_state = current_state[character]
-            current_state[to_read[-1]] = transition(to_write,
-                                                    match["move"],
-                                                    match["new_state"])
+            current_state[to_read] = transition(to_write,
+                                                match["move"],
+                                                match["new_state"])
     tapes = []
     for i in range(num_tapes):
         tape_input = input("Tape {} input: ".format(i))
