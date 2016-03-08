@@ -10,21 +10,29 @@ class State:
         self.machine = machine
         self.transitions = transitions
 
+    def _traverse_transitions(self, read):
+        result = None
+        read = ''.join(read)
+        for transition in self.transitions:
+            result = transition
+            i = 0
+            for did_read, should_read in zip(read, transition.read):
+                i += 1
+                if "*" != should_read != did_read:
+                    result = None
+                    break
+            if result is not None:
+                break
+        if result is None:
+            raise ValueError("Invalid transition: "
+                             "read {} in state {}".format(read, self.name))
+        return result
+
     def step(self):
         read = []
         for tape in self.machine.tapes:
             read.append(tape.read())
-        for transition in self.transitions:
-            for read, should_read in zip(read, transition.read):
-                if should_read == '*':
-                    continue
-                elif should_read != read:
-                    break
-            else:
-                break
-        else:
-            raise ValueError("Invalid transition: "
-                             "read {} in state {}".format(read, self.name))
+        transition = self._traverse_transitions(read)
         for tape, movement,  symbol in zip(self.machine.tapes,
                                            transition.move,
                                            transition.write):

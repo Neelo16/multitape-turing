@@ -30,9 +30,9 @@ def process_input(path):
     tapes = []
     for i in range(num_tapes):
         tape_input = input("Tape {} input: ".format(i))
-        tape_pointer = int(input("Tape {} starting pointer: ".format(i)))
+        # tape_pointer = int(input("Tape {} starting pointer: ".format(i)))
         tape = Tape(tape_input)
-        tape.pointer = tape_pointer
+        # tape.pointer = tape_pointer
         tapes.append(tape)
     turing_machine = machine.Machine("q0", states, tapes)
     return turing_machine
