@@ -11,21 +11,16 @@ class State:
         self.transitions = transitions
 
     def _traverse_transitions(self, read):
-        result = None
         for transition in self.transitions:
-            result = transition
-            i = 0
             for did_read, should_read in zip(read, transition.read):
-                i += 1
                 if "*" != should_read != did_read:
-                    result = None
                     break
-            if result is not None:
+            else:
                 break
-        if result is None:
+        else:
             raise ValueError("Invalid transition: "
                              "read {} in state {}".format(read, self.name))
-        return result
+        return transition
 
     def step(self):
         read = []

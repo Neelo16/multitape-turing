@@ -19,11 +19,14 @@ class Machine:
             self.states[state] = new_state
         self.state = self.states[initial_state]
 
-    def run(self):
+    def run(self, step=False):
         self.show()
-        reset_cursor = "\033[F" * (len(self.tapes)*2)
+        reset_cursor = "\033[F" * (len(self.tapes)*2 + 1 + (1 if step else 0))
         while not self.state.name.startswith('halt'):
-            time.sleep(0.05)
+            if step:
+                input("Press RETURN to step")
+            else:
+                time.sleep(0.05)
             self.state.step()
             print(reset_cursor, end='')
             self.show()
@@ -33,3 +36,4 @@ class Machine:
         for tape in self.tapes:
             print(tape)
             print(' '*tape.pointer, '^', ' '*(len(tape)-tape.pointer), sep='')
+        print("Current state:", self.state.name)

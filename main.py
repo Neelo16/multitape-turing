@@ -1,11 +1,25 @@
 #!/usr/bin/env python
 
-import sys
+import argparse
 import re
 from collections import defaultdict, namedtuple
 
 import machine
 from tape import Tape
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Multitape Turing '
+                                                 'Machine Simulator')
+    parser.add_argument("-v", "--version",
+                        action="version",
+                        version="alpha 0.7")
+    parser.add_argument("-s", "--step",
+                        help="enable step mode instead of running",
+                        action='store_true')
+    parser.add_argument('file', metavar='file', nargs=1)
+
+    return parser.parse_args()
 
 
 def process_input(path):
@@ -39,8 +53,9 @@ def process_input(path):
 
 
 def main():
-    turing_machine = process_input(sys.argv[1])
-    turing_machine.run()
+    args = parse_args()
+    turing_machine = process_input(args.file[0])
+    turing_machine.run(step=args.step)
 
 if __name__ == '__main__':
     main()
