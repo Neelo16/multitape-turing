@@ -12,7 +12,6 @@ class State:
 
     def _traverse_transitions(self, read):
         result = None
-        read = ''.join(read)
         for transition in self.transitions:
             result = transition
             i = 0
