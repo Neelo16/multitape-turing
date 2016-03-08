@@ -11,7 +11,7 @@ It also only works well on Linux and (probably) Macs. If you're using Windows, y
 ```python
 print(reset_cursor, end='')
 ```
-in __machine.py__ and replacing it with
+in __machine.py__ and replace it with
 ```python
 os.system('clear')
 ```
