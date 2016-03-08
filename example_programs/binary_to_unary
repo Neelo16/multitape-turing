@@ -1,27 +1,43 @@
 1
+; This program converts a binary number into a unary number
+; using only one tape
+
+; First, it adds a trailing $ to mark the beginning of the output
+; if it is not present, or just moves right until it reaches it
 q0 $ $ l q1
 q0 _ $ l q1
 q0 0 0 r q0
 q0 1 1 r q0
 q0 * * * halt-reject
 
+; This state decrements the number
+; It is only valid for positive numbers:
+; if we decrement 0, it means we reached the end
 q1 _ _ * q6
 q1 1 0 l q2
 q1 0 1 l q1
 
+; It travels to the start of the input
+; This step is not really necessary, but
+; it looks cleaner to remove any leading
+; zeroes
 q2 _ _ r q3
 q2 0 0 l q2
 q2 1 1 l q2
 
+; This state clears all leading 0's
 q3 $ $ r q4
 q3 0 _ r q3
 q3 1 1 r q4
 
+; Now we move right until we reach a space, where
+; a 1 is written, since we decremented the number once
 q4 _ 1 l q5
 q4 0 0 r q4
 q4 1 1 r q4
 q4 $ $ r q4
 
+; We move all the way left and restart the whole sequence
 q5 _ _ r q0
 q5 * * l q5
 

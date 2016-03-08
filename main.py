@@ -31,6 +31,7 @@ def process_input(path):
     with open(path, 'r') as f:
         num_tapes = int(f.readline())
         for line in f:
+            line = line.split(';')[0]
             match = extractor.match(line.strip())
             if match is None:
                 continue
