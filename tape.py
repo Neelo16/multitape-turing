@@ -2,10 +2,12 @@ import itertools  # chain
 
 
 class Tape:
-    def __init__(self, contents=[' ']):
+    def __init__(self, contents=' '):
         self.right_side = list(contents)
         self.left_side = list()
         self._pointer = 0
+        if len(self.right_side) == 0:
+            self.right_side.append(' ')
 
     def read(self):
         if self._pointer >= 0:
@@ -38,6 +40,10 @@ class Tape:
     @property
     def pointer(self):
         return len(self.left_side) + self._pointer
+
+    @pointer.setter
+    def pointer(self, value):
+        self._pointer = value - len(self.left_side)
 
     def __iter__(self):
         return itertools.chain(reversed(self.left_side), self.right_side)

@@ -2,7 +2,7 @@
 
 Syntax inspired by http://morphett.info/turing/turing.html
 
-Still a very early version. Input and options must be entered directly in the code, but base functionality is already implemented.
+Still a very early version. First line in input file must be the number of tapes.
 
 Comments in simulator programs are not implemented yet.
 

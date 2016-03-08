@@ -11,15 +11,13 @@ from state import State
 
 
 class Machine:
-    def __init__(self, initial_state, states, num_tapes=1):
-        self.tapes = [Tape() for i in range(num_tapes)]
-        self.tapes[0] = Tape(list('101101'))
+    def __init__(self, initial_state, states, tapes=[Tape()]):
+        self.tapes = tapes
         self.states = dict()
         for state, transitions in states.items():
             new_state = State(state, self, transitions)
             self.states[state] = new_state
         self.state = self.states[initial_state]
-        self.run()
 
     def run(self):
         self.show()
