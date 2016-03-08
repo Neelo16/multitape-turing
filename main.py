@@ -11,8 +11,9 @@ from tape import Tape
 def process_input(path):
     extractor = re.compile('(?P<state>\S+) (?P<read>\S+) (?P<write>\S+) '
                            '(?P<move>\S+) (?P<new_state>\S+)')
-    states = defaultdict(dict)
-    transition = namedtuple("Transition", ["write", "move", "new_state"])
+    states = defaultdict(list)
+    transition = namedtuple("Transition",
+                            ["read", "write", "move", "new_state"])
     with open(path, 'r') as f:
         num_tapes = int(f.readline())
         for line in f:
@@ -21,12 +22,11 @@ def process_input(path):
                 continue
             match = match.groupdict()
             state = match["state"]
-            to_read = match["read"].replace('_', ' ')
-            to_write = match["write"].replace('_', ' ')
-            current_state = states[state]
-            current_state[to_read] = transition(to_write,
-                                                match["move"],
-                                                match["new_state"])
+            read = match["read"].replace('_', ' ')
+            write = match["write"].replace('_', ' ')
+            move = match["move"]
+            new_state = match["new_state"]
+            states[state].append(transition(read, write, move, new_state))
     tapes = []
     for i in range(num_tapes):
         tape_input = input("Tape {} input: ".format(i))

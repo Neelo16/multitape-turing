@@ -14,19 +14,17 @@ class State:
         read = []
         for tape in self.machine.tapes:
             read.append(tape.read())
-        read = ''.join(read)
-        reading = read
-        for i in range(len(read)):
-            for transition in self.transitions:
-                if transition == reading:
-                    transition = self.transitions[transition]
+        for transition in self.transitions:
+            for read, should_read in zip(read, transition.read):
+                if should_read == '*':
+                    continue
+                elif should_read != read:
                     break
             else:
-                reading = '*' * (i+1) + read[i+1:]
-                continue
-            break
+                break
         else:
-            raise ValueError("Invalid read")
+            raise ValueError("Invalid transition: "
+                             "read {} in state {}".format(read, self.name))
         for tape, movement,  symbol in zip(self.machine.tapes,
                                            transition.move,
                                            transition.write):
