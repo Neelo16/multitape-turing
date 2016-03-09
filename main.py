@@ -15,13 +15,16 @@ except NameError:
 def parse_args():
     parser = argparse.ArgumentParser(description='Multitape Turing '
                                                  'Machine Simulator')
-    parser.add_argument("-v", "--version",
-                        action="version",
-                        version="alpha 0.7")
-    parser.add_argument("-s", "--step",
-                        help="enable step mode instead of running",
+    parser.add_argument('-v', '--version',
+                        action='version',
+                        version='alpha 0.7a')
+    parser.add_argument('-s', '--step',
+                        help='enable step mode instead of running',
                         action='store_true')
-    parser.add_argument('file', metavar='file', nargs=1)
+    parser.add_argument('FILE',
+                        metavar='FILE',
+                        help='path to program',
+                        nargs=1)
 
     return parser.parse_args()
 

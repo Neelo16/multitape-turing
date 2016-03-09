@@ -27,12 +27,12 @@ Simulation starts on state q0 and stops when a state starting with "halt" is rea
 After cloning the repository, run the program with `python main.py FILE`, where _FILE_ is the path to a file containing the syntax read by the simulator. There are also optional arguments you can pass to the simulator, such as --step to make it run one step at a time (in fact, this is the only option implemented so far), asking you to press RETURN between transitions. You can check these options at any time by using the argument -h:
 ```
 $ python main.py -h
-usage: main.py [-h] [-v] [-s] file
+usage: main.py [-h] [-v] [-s] FILE
 
 Multitape Turing Machine Simulator
 
 positional arguments:
-  file
+  FILE           path to program
 
 optional arguments:
   -h, --help     show this help message and exit
