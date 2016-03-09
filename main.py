@@ -21,8 +21,8 @@ def parse_args():
     parser.add_argument('-s', '--step',
                         help='enable step mode instead of running',
                         action='store_true')
-    parser.add_argument('FILE',
-                        metavar='FILE',
+    parser.add_argument('file',
+                        metavar='file',
                         help='path to program',
                         nargs=1)
 
