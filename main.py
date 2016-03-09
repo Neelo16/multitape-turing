@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
-import argparse
 import re
+import os   # os.path.isfile
+import sys  # exit
+import argparse
 from collections import defaultdict, namedtuple
 
 import machine
@@ -11,6 +13,7 @@ try:
     input = raw_input
 except NameError:
     pass
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Multitape Turing '
@@ -22,9 +25,9 @@ def parse_args():
                         help='enable step mode instead of running',
                         action='store_true')
     parser.add_argument('file',
-                        metavar='file',
-                        help='path to program',
-                        nargs=1)
+                        metavar='FILE',
+                        type=str,
+                        help='path to program')
 
     return parser.parse_args()
 
@@ -62,7 +65,10 @@ def process_input(path):
 
 def main():
     args = parse_args()
-    turing_machine = process_input(args.file[0])
+    if not os.path.isfile(args.file):
+        sys.stderr.write('Invalid path to Turing Machine specification\n')
+        sys.exit(1)
+    turing_machine = process_input(args.file)
     turing_machine.run(step=args.step)
 
 if __name__ == '__main__':
