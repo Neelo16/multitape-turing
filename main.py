@@ -17,7 +17,7 @@ def parse_args():
                                                  'Machine Simulator')
     parser.add_argument('-v', '--version',
                         action='version',
-                        version='alpha 0.7a')
+                        version='alpha 0.7b')
     parser.add_argument('-s', '--step',
                         help='enable step mode instead of running',
                         action='store_true')
@@ -30,8 +30,8 @@ def parse_args():
 
 
 def process_input(path):
-    extractor = re.compile('(?P<state>\S+) (?P<read>\S+) (?P<write>\S+) '
-                           '(?P<move>\S+) (?P<new_state>\S+)')
+    extractor = re.compile('(?P<state>\S+)\s+(?P<read>\S+)\s+(?P<write>\S+)\s+'
+                           '(?P<move>\S+)\s+(?P<new_state>\S+)')
     states = defaultdict(list)
     transition = namedtuple("Transition",
                             ["read", "write", "move", "new_state"])
