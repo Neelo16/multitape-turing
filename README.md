@@ -13,7 +13,7 @@ print(reset_cursor, end='')
 ```
 in __machine.py__ and replace it with
 ```python
-os.system('clear')
+os.system('cls')
 ```
 After adding
 ```python
