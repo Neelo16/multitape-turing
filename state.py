@@ -1,7 +1,4 @@
-try:
-    from itertools import izip as zip  # Python 2
-except ImportError:
-    pass
+import non_deterministic
 
 
 class State:
@@ -11,22 +8,35 @@ class State:
         self.transitions = transitions
 
     def _traverse_transitions(self, read):
+        valid_transitions = []
         for transition in self.transitions:
             for did_read, should_read in zip(read, transition.read):
                 if "*" != should_read != did_read:
                     break
             else:
-                break
+                valid_transitions.append(transition)
+                if self.machine.is_deterministic:
+                    break
         else:
-            raise ValueError("Invalid transition: "
-                             "read {} in state {}".format(read, self.name))
-        return transition
+            if self.machine.is_deterministic:
+                raise ValueError("Invalid transition: "
+                                 "read {} in state {}".format(read, self.name))
 
-    def step(self):
-        read = []
-        for tape in self.machine.tapes:
-            read.append(tape.read())
-        transition = self._traverse_transitions(read)
+        return valid_transitions
+
+    def step(self, transition=None):
+        if transition is None:
+            read = []
+            for tape in self.machine.tapes:
+                read.append(tape.read())
+            transition = self._traverse_transitions(read)
+            if not self.machine.is_deterministic and len(transition) > 0:
+                remaining_transitions = transition[1:]
+                transition = transition[0]
+                non_deterministic.register_choices(self.machine,
+                                                   remaining_transitions)
+            else:
+                transition = transition[0]
         for tape, movement,  symbol in zip(self.machine.tapes,
                                            transition.move,
                                            transition.write):
@@ -42,3 +52,4 @@ class State:
                                        None)
         else:
             self.machine.state = self.machine.states[transition.new_state]
+        self.machine.traversed_transitions.append(transition)

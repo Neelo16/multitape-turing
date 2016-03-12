@@ -45,6 +45,11 @@ class Tape:
     def pointer(self, value):
         self._pointer = value - len(self.left_side)
 
+    def copy(self):
+        new_tape = Tape(list(self))
+        new_tape.pointer = self.pointer
+        return new_tape
+
     def __iter__(self):
         return itertools.chain(reversed(self.left_side), self.right_side)
 

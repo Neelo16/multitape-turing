@@ -1,18 +1,15 @@
 #!/usr/bin/env python
 
 import re
-import os   # os.path.isfile
-import sys  # exit
+import os    # os.path.isfile
+import sys   # exit
+import time  # sleep
 import argparse
 from collections import defaultdict, namedtuple
 
 import machine
+import non_deterministic
 from tape import Tape
-
-try:
-    input = raw_input
-except NameError:
-    pass
 
 
 def parse_args():
@@ -20,7 +17,7 @@ def parse_args():
                                                  'Machine Simulator')
     parser.add_argument('-v', '--version',
                         action='version',
-                        version='alpha 0.7b')
+                        version='alpha 0.8')
     parser.add_argument('-s', '--step',
                         help='enable step mode instead of running',
                         action='store_true')
@@ -28,6 +25,9 @@ def parse_args():
                         metavar='FILE',
                         type=str,
                         help='path to program')
+    parser.add_argument('-nd', '--non-deterministic',
+                        help='simulate a non-deterministic Turing Machine',
+                        action='store_true')
 
     return parser.parse_args()
 
@@ -55,12 +55,10 @@ def process_input(path):
     tapes = []
     for i in range(num_tapes):
         tape_input = input("Tape {} input: ".format(i))
-        # tape_pointer = int(input("Tape {} starting pointer: ".format(i)))
         tape = Tape(tape_input)
-        # tape.pointer = tape_pointer
         tapes.append(tape)
     turing_machine = machine.Machine("q0", states, tapes)
-    return turing_machine
+    return turing_machine, states, tapes
 
 
 def main():
@@ -68,8 +66,27 @@ def main():
     if not os.path.isfile(args.file):
         sys.stderr.write('Invalid path to Turing Machine specification\n')
         sys.exit(1)
-    turing_machine = process_input(args.file)
-    turing_machine.run(step=args.step)
+    turing_machine, states, tapes = process_input(args.file)
+    turing_machine.is_deterministic = not args.non_deterministic
+    if turing_machine.is_deterministic:
+        turing_machine.run(step=args.step)
+    else:
+        tapes = [tape.copy() for tape in tapes]
+        turing_machine = non_deterministic.run(turing_machine, args.step)
+        answer = input('Would you like to watch the path to the accept state? '
+                       '(Y/n)')
+        if not answer.lower().startswith('n'):
+            winning_machine = machine.Machine('q0', states, tapes)
+            winning_machine.show()
+            for transition in turing_machine.traversed_transitions:
+                if args.step:
+                    input('Press RETURN to step')
+                else:
+                    time.sleep(0.05)
+                winning_machine.clear_output(args.step)
+                winning_machine.step(transition)
+                winning_machine.show()
+
 
 if __name__ == '__main__':
     main()
