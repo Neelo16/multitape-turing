@@ -73,19 +73,20 @@ def main():
     else:
         tapes = [tape.copy() for tape in tapes]
         turing_machine = non_deterministic.run(turing_machine, args.step)
-        answer = input('Would you like to watch the path to the accept state? '
-                       '(Y/n)')
-        if not answer.lower().startswith('n'):
-            winning_machine = machine.Machine('q0', states, tapes)
-            winning_machine.show()
-            for transition in turing_machine.traversed_transitions:
-                if args.step:
-                    input('Press RETURN to step')
-                else:
-                    time.sleep(0.05)
-                winning_machine.clear_output(args.step)
-                winning_machine.step(transition)
+        if turing_machine.state.name == 'halt-accept':
+            answer = input('Would you like to watch the path '
+                           'to the accept state? (Y/n)')
+            if not answer.lower().startswith('n'):
+                winning_machine = machine.Machine('q0', states, tapes)
                 winning_machine.show()
+                for transition in turing_machine.traversed_transitions:
+                    if args.step:
+                        input('Press RETURN to step')
+                    else:
+                        time.sleep(0.05)
+                    winning_machine.clear_output(args.step)
+                    winning_machine.step(transition)
+                    winning_machine.show()
 
 
 if __name__ == '__main__':
