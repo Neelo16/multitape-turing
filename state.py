@@ -17,10 +17,9 @@ class State:
                 valid_transitions.append(transition)
                 if self.machine.is_deterministic:
                     break
-        else:
-            if self.machine.is_deterministic:
-                raise ValueError("Invalid transition: "
-                                 "read {} in state {}".format(read, self.name))
+        if len(valid_transitions) == 0:
+            raise ValueError("Invalid transition: "
+                             "read {} in state {}".format(read, self.name))
 
         return valid_transitions
 
