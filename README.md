@@ -51,7 +51,7 @@ optional arguments:
                         machine
 ```
 
-By default, if you have two transitions for the same input, only the first one will be considered; to change this, use the --non-deterministic flag to make it go through all possible paths until it either exhausts all paths or accepts the input given. If the -sc flag is not provided, output will seem strange during calculation as it will constantly jump around states until it finds the (shortest) path to halt-accept. At the end, if it reached halt-accept, the program asks if you'd like to see it traverse through the found path. Alternatively, if you run it with the `--skip-calculations` argument, it will only display the final path. 
+By default, if you have two transitions for the same input, only the first one will be considered; to change this, use the `--non-deterministic` flag to make it go through all possible paths until it either exhausts all paths or accepts the input given. If the `-sc` flag is not provided, output will seem strange during calculation as it will constantly jump around states until it finds the (shortest) path to halt-accept. At the end, if it reached halt-accept, the program asks if you'd like to see it traverse through the found path. Alternatively, if you run it with the `--skip-calculations` argument, it will only display the final path. 
 
 # Syntax
 Writing a program for this simulator is simple:
