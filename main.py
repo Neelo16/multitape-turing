@@ -3,7 +3,6 @@
 import re
 import os    # os.path.isfile
 import sys   # exit
-import time  # sleep
 import argparse
 from collections import defaultdict, namedtuple
 
@@ -28,11 +27,6 @@ def parse_args():
     parser.add_argument('-nd', '--non-deterministic',
                         help='simulate a non-deterministic Turing Machine',
                         action='store_true')
-    parser.add_argument('-sc', '--skip-calculations',
-                        help='only show the final path in a '
-                             'non-deterministic machine',
-                        action='store_true')
-
     return parser.parse_args()
 
 
@@ -65,31 +59,6 @@ def process_input(path):
     return turing_machine, states, tapes
 
 
-def display_final_path(final_machine,
-                       states,
-                       tapes,
-                       step=False,
-                       skipped=False):
-    if not skipped and final_machine.state.name != 'halt-accept':
-        return
-    if not skipped:
-        answer = input('Would you like to watch the path '
-                       'to the accept state? (Y/n)')
-    else:
-        answer = ''
-    if not answer.lower().startswith('n'):
-        winning_machine = machine.Machine('q0', states, tapes)
-        winning_machine.show()
-        for transition in final_machine.traversed_transitions:
-            if step:
-                input('Press RETURN to step')
-            else:
-                time.sleep(0.05)
-            winning_machine.clear_output(step)
-            winning_machine.step(transition)
-            winning_machine.show()
-
-
 def main():
     args = parse_args()
     if not os.path.isfile(args.file):
@@ -101,11 +70,10 @@ def main():
         turing_machine.run(step=args.step)
     else:
         tapes = [tape.copy() for tape in tapes]
-        final_machine = non_deterministic.run(turing_machine,
-                                              step=args.step,
-                                              no_output=args.skip_calculations)
-        display_final_path(final_machine, states, tapes,
-                           args.step, args.skip_calculations)
+        final_machine = non_deterministic.get_final_path(turing_machine)
+        winning_machine = machine.Machine('q0', states, tapes)
+        winning_machine.run(step=args.step,
+                            path=final_machine.traversed_transitions)
 
 if __name__ == '__main__':
     main()

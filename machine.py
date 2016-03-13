@@ -1,4 +1,5 @@
 import time  # sleep
+import itertools  # repeat
 from tape import Tape
 from state import State
 
@@ -17,18 +18,25 @@ class Machine:
         self.state = self.states[initial_state]
         self.traversed_transitions = []
 
-    def run(self, step=False):
+    def run(self, step=False, path=None):
         self.show()
         reset_cursor = "\033[F" * (len(self.tapes)*2 + 1 + (1 if step else 0))
-        while not self.state.name.startswith('halt'):
-            if step:
-                input('Press RETURN to step')
-            else:
-                time.sleep(0.05)
-            self.step()
+        if path is None:
+            path = itertools.repeat(None)
+        for transition in path:
+            self.delay(step)
+            self.step(transition)
             print(reset_cursor, end='')
             self.show()
+            if transition is None and self.state.name.startswith('halt'):
+                break
         print("Final state: {}".format(self.state.name))
+
+    def delay(self, step):
+        if step:
+            input('Press RETURN to step')
+        else:
+            time.sleep(0.05)
 
     def step(self, transition=None):
         self.state.step(transition)

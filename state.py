@@ -31,11 +31,9 @@ class State:
             transition = self._traverse_transitions(read)
             if not self.machine.is_deterministic and len(transition) > 0:
                 remaining_transitions = transition[1:]
-                transition = transition[0]
                 non_deterministic.register_choices(self.machine,
                                                    remaining_transitions)
-            else:
-                transition = transition[0]
+            transition = transition[0]
         for tape, movement,  symbol in zip(self.machine.tapes,
                                            transition.move,
                                            transition.write):
