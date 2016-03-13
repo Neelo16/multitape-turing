@@ -16,7 +16,7 @@ def parse_args():
                                                  'Machine Simulator')
     parser.add_argument('-v', '--version',
                         action='version',
-                        version='alpha 0.8')
+                        version='alpha 0.8c')
     parser.add_argument('-s', '--step',
                         help='enable step mode instead of running',
                         action='store_true')
