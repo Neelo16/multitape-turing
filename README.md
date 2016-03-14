@@ -6,7 +6,7 @@ This simulator allows you to write simple specifications for Turing Machines, wh
 
 Python 3 is required to run this simulator.
 
-Still an early version. First line in input file must be the number of tapes.
+Still an early version.
 
 So far, there is no GUI, and it can only be used in a terminal window.
 

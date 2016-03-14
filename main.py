@@ -36,8 +36,8 @@ def process_input(path):
     states = defaultdict(list)
     transition = namedtuple("Transition",
                             ["read", "write", "move", "new_state"])
+    num_tapes = -1
     with open(path, 'r') as f:
-        num_tapes = int(f.readline())
         for line in f:
             line = line.split(';')[0]
             match = extractor.match(line.strip())
@@ -50,6 +50,8 @@ def process_input(path):
             move = match["move"]
             new_state = match["new_state"]
             states[state].append(transition(read, write, move, new_state))
+            if num_tapes == -1:
+                num_tapes = len(match['read'])
     tapes = []
     for i in range(num_tapes):
         tape_input = input("Tape {} input: ".format(i))
