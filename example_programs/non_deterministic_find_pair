@@ -1,4 +1,3 @@
-2
 ; This machine will accept a word of the type
 ; #W1#W2#...#Wn, where Wi is a binary word, if
 ; there are an i and j such that i != j and
